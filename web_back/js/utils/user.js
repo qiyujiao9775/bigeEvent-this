@@ -1,3 +1,5 @@
+
+// 管理员功能
 var user = {
   /**
    * 管理员登陆
@@ -5,6 +7,7 @@ var user = {
    * @param {*} password 密码
    * @param {*} callBack 回调函数
    */
+  // 登陆
   login: function(userName, password, callBack) {
     // alert(userName + password);
     $.post(URLIST.user_login, { user_name: userName, password: password }, function(res) {
@@ -12,7 +15,7 @@ var user = {
       callBack(res);
     });
   },
-
+// 退出
   logout: function(callBack) {
     $.post(URLIST.user_logout, function(res) {
       callBack(res);
