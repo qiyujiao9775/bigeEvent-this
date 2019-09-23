@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>模板引擎</h1>
+    <script src="./template-web.js"></script>
+    <script id="tmp" type="text/html">
+    <h4>
+        {{name}}<!-- data.name -->
+    </h4>
+    <h5>爱好</h5>
+    <ul>
+        <!-- 循环 -->
+        {{each hobby item idx}}
+        <!-- js: 
+        data.hobby.forEach(function(item,index){
+
+        })
+    
+       item:hobby,name-->
+        <li>序号:{{idx}}{{item}}</li>
+        {{/each}}
+    </ul>
+    </script>
+    <script>
+        var data = {
+            name:'jack',hobby:['吃饭','睡觉','打豆豆']
+        };
+        //字符串
+        var htmlStr = template('tmp',data);
+        console.log(htmlStr);
+
+    </script>
+</body>
+</html>
