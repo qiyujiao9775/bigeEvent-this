@@ -42,8 +42,8 @@
                 <tfoot>
                     <tr>
                         <td colspan="3" class="text-center">
-                            <a href="#" class="btn btn-success" 
-                            id="btnShowAdd"  data-toggle="modal" data-target="#addModal">新增分类</a>
+                            <a href="#" class="btn btn-success" id="btnShowAddModal" data-toggle="modal"
+                                data-target="#addModal">新增分类</a>
                         </td>
                     </tr>
                 </tfoot>
@@ -72,7 +72,7 @@
                             <input type="text" class="form-control" id="category_slug">
                         </div>
                         <div class="alert alert-primary" role="alert" id="divResult">
-                            </div>
+                        </div>
 
                     </form>
                 </div>
@@ -132,11 +132,68 @@
     </script>
     <script>
         var status = "添加"; //添加还是修改
-        var id;
-//新增分类
-        $("#btnShowAdd"){
+        // var id;
+        //新增分类  事件监听
+        //新增和编辑共用一个模态框
+        $("#btnShowAddModal").click(function () {
+            $('#category_name').val('');
+            $('#category_slug').val('');
+            status = '添加';
+            $("#addModal .modal-title").text('新增分类');
+            $("#addModal #model_add").text('保存分类');
+        });
+        //自动刷新  doQuery();
 
-        }
+        $(function () {
+            doQuery();
+        });
+
+        //新增文章分类
+        $(function () {
+            category.show(function (res) {
+                console.log(res);
+            });
+
+            // 新增
+            $('#model_add').click(function () {
+                //用户数据获取  进行简单判断
+                var name = $("#category_name").val();
+                var slug = $("#category_slug").val();
+                console.log(name, slug);
+                if (name === '' || slug === '') {
+                    $("#divResult").text("名字 别名不为空");
+                } else {
+                    if (status === "添加") {
+                        //添加
+                        category.add(name, slug, function (res) {
+                            // console.log(res);
+                            if (res.code === 200) {
+                                $('#addModal').modal('hide');
+                                doQuery();
+                            } else {
+                                $('#divResult').text(res.msg);
+                            }
+                        });
+                    } else {
+                        //编辑
+                        var id = $("#category_id").val();
+
+                        category.edit(id, name, slug, function (res) {
+                            // console.log(res);
+                            if (res.code === 200) {
+                                $('#addModal').modal('hide');
+                                doQuery();
+                            } else {
+
+                                $('#divResult').text(res.msg);
+                            }
+                        });
+
+
+                    }
+                }
+            })
+        });
         //编辑文章分类  即修改
         function editTr(obj) {
             $('#addModal').modal('show');
@@ -145,7 +202,7 @@
             $("#addModal #model_add").text('保存修改');
             status = "编辑"
             //给文板框赋值
-            $('#category_id').val(obj.id);
+            $('#category_id').val(obj.id); //隐藏域 hidden
             $('#category_name').val(obj.name);
             $('#category_slug').val(obj.slug);
             console.log(obj);
@@ -177,59 +234,6 @@
                 $('#tableContent').html(template('tmp', res));
             });
         }
-        //自动刷新  doQuery();
-
-        $(function () {
-            doQuery();
-        });
-
-        //新增文章分类
-        $(function () {
-            category.show(function (res) {
-                console.log(res);
-            });
-
-            // 新增
-            $('#model_add').click(function () {
-                //用户数据获取  进行简单判断
-                var name = $("#category_name").val();
-                var slug = $("#category_slug").val();
-                console.log(name, slug);
-                if (name === '' || slug === '') {
-                    $("#divResult").text("名字 别名不为空");
-                } 
-                else {
-                    if (status === "添加") {
-                        category.add(name, slug, function (res) {
-                            // console.log(res);
-                            if (res.code === 200) {
-                                $('#addModal').modal('hide');
-                                doQuery();
-                            } else {
-                                $('#divResult').text(res.msg);
-                            }
-                        });
-                    } 
-                    else {
-                        //编辑
-                        var id = $("#category_id").val();
-
-                        category.edit(id, name, slug, function (res) {
-                            // console.log(res);
-                            if (res.code === 200) {
-                                $('#addModal').modal('hide');
-                                doQuery();
-                            } else {
-
-                                $('#divResult').text(res.msg);
-                            }
-                        });
-
-
-                    }
-                }
-            })
-        });
     </script>
 
 </body>
