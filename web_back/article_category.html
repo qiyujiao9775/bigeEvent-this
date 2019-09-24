@@ -142,12 +142,10 @@
             $("#addModal .modal-title").text('新增分类');
             $("#addModal #model_add").text('保存分类');
         });
-        //自动刷新  doQuery();
-
+        //自动刷新  doQuery()
         $(function () {
             doQuery();
         });
-
         //新增文章分类
         $(function () {
             category.show(function (res) {
@@ -168,10 +166,11 @@
                         category.add(name, slug, function (res) {
                             // console.log(res);
                             if (res.code === 200) {
+                                $('#divResult').hide();
                                 $('#addModal').modal('hide');
                                 doQuery();
                             } else {
-                                $('#divResult').text(res.msg);
+                                $('#divResult').show().text(res.msg);
                             }
                         });
                     } else {
@@ -181,11 +180,13 @@
                         category.edit(id, name, slug, function (res) {
                             // console.log(res);
                             if (res.code === 200) {
+                                $('#divResult').hide();
+
                                 $('#addModal').modal('hide');
                                 doQuery();
                             } else {
 
-                                $('#divResult').text(res.msg);
+                                $('#divResult').show().text(res.msg);
                             }
                         });
 
@@ -205,7 +206,8 @@
             $('#category_id').val(obj.id); //隐藏域 hidden
             $('#category_name').val(obj.name);
             $('#category_slug').val(obj.slug);
-            console.log(obj);
+            $('#divResult').hide();
+            // console.log(obj);
 
         }
         //删除文章分类
