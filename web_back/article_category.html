@@ -180,7 +180,12 @@
                 }
                 else{
                     category.add(name, slug, function(res) {
-            console.log(res);
+            // console.log(res);
+                   if(res.code ===200){
+                    $('#addModal').modal('hide');
+                   }else{
+                    $('#divResult').text("名称或类名已存在");
+                   }
                     });
                 }
 
