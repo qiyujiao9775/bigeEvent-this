@@ -15,5 +15,10 @@ var category = {
         $.post(URLIST.category_add,{name:name,slug:slug} ,function(res) {
             callBack(res);
         });
+    },
+    del:function(id){
+        $.post(URLIST.category_del,{id:id} ,function(res) {
+        callBack(res);
+    });
     }
 }

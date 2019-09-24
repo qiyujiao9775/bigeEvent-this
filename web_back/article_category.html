@@ -150,12 +150,23 @@
             <td class="text-center">
                 <a href="javascript:editTr({&quot;id&quot;:&quot;2&quot;,&quot;slug&quot;:&quot;funny&quot;,&quot;name&quot;:&quot;奇趣事&quot;});"
                     class="btn btn-info btn-xs">编辑</a>
-                <a href="javascript:deleteTr( 2 );" class="btn btn-danger btn-xs">删除</a>
+                <a href="javascript:deleteTr( {{item.id}});" class="btn btn-danger btn-xs">删除</a>
             </td>
         </tr>
         {{/each}}
     </script>
     <script>
+        function deleteTr(id){
+            alert(id);
+            //todos:使用 模态框实现删除确认
+            if(window.confirm('你确定要删除么？')){
+                alert(id);
+                category.del(id,function(res){
+                    console.log(res);
+                })
+            }
+
+        }
         $(function () {
             category.show(function (res) {
                 console.log(res);
