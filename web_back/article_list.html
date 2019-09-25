@@ -121,27 +121,111 @@
         });
         // 文章列表管理查询  
         $(function () {
-            article.show({}, function (res) {
-                console.log(res);
-                if (res.code === 200) {
-                    //1,把res.data 渲染到表格
-                    var htmlStr = template("tmp",res);
-                    console.log(htmlStr);
-                    $('#articleListContent').html(htmlStr);
-                    //2,初始化分页
-                    $('.pagination').twbsPagination({
-                        totalPages: res.totalPages, // 总页数，可以通过翻页，或者最后一页
-                        visiblePages: 5, // 可见页数
-                        onPageClick: function (event, page) {
-                            $('#page-content').text('Page' +page);
-                        }
-                    });
-                }
-            });
+            var currentPage =1; //保存用户选中的页码
+            getAndShow();
+
+            function getAndShow() {
+                article.show({
+                    page: currentPage }, function (res) {
+                    // console.log(res);
+                    if (res.code === 200) {
+                        //1,把res.data 渲染到表格
+                        var htmlStr = template("tmp", res);
+                        // console.log(htmlStr);
+                        $('#articleListContent').html(htmlStr);
+
+                        //2,初始化分页  即 查询后再做的
+                        $('.pagination').twbsPagination({
+                            totalPages: res.totalPage, // 总页数，可以通过翻页，或者最后一页
+                            visiblePages: 5, // 可见页数
+                            first: "首页",
+                            prev: "上一页",
+                            next: "下一页",
+                            last: "结尾",
+                            initiateStartPageClick: false, //不要在初始化完成后点击第一页是否自动点击开始页
+                            onPageClick: function (event, page) {
+                                console.log(page); //页码
+                                // $('#page-content').text('Page' +page);
+                                // 分页效果
+                                // 1，吧page传递给接口调用  
+                                // 2，重新查询
+                                currentPage = page;
+                                getAndShow();
+
+                            }
+                        });
+                    }
+                });
+            }
+
+
 
         });
         //分页
     </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- //全局 -->
+    <!-- <script >
+    
+    //尽量不要用全局变量 放=防止污染
+    $('#release_btn').click(function () {
+            window.parent.setMenu(1, 1);
+        });
+
+        var currentPage = 1; //保存用户选中的页码
+        function getAndShow() {
+            article.show({
+                page: currentPage
+            }, function (res) {
+                // console.log(res);
+                if (res.code === 200) {
+                    //1,把res.data 渲染到表格
+                    var htmlStr = template("tmp", res);
+                    // console.log(htmlStr);
+                    $('#articleListContent').html(htmlStr);
+
+                    //2,初始化分页  即 查询后再做的
+                    $('.pagination').twbsPagination({
+                        totalPages: res.totalPage, // 总页数，可以通过翻页，或者最后一页
+                        visiblePages: 5, // 可见页数
+                        first: "首页",
+                        prev: "上一页",
+                        next: "下一页",
+                        last: "结尾",
+                        initiateStartPageClick: false, //不要在初始化完成后点击第一页是否自动点击开始页
+                        onPageClick: function (event, page) {
+                            console.log(page); //页码
+                            // $('#page-content').text('Page' +page);
+                            // 分页效果
+                            // 1，吧page传递给接口调用  
+                            // 2，重新查询
+                            currentPage = page;
+                            getAndShow();
+
+                        }
+                    });
+                }
+            });
+        }
+
+
+        // 文章列表管理查询  
+        $(function () {
+            getAndShow();
+        });</script> -->
 
 </body>
 
