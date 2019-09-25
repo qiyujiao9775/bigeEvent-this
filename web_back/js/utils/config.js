@@ -10,4 +10,7 @@ var URLIST = {
   category_edit:BASE_URL+"/admin/category_edit",
 
   article_show: BASE_URL + '/admin/search',
+  article_del: BASE_URL + '/admin/article_delete',
+
+
 };

@@ -1,4 +1,3 @@
-
 var article = {
     /**
      * 
@@ -6,9 +5,15 @@ var article = {
      * @param {*} callBack 
      */
 
-    show: function(param, callBack) {
-        $.get(URLIST.article_show, param, function(res) {
-          callBack(res);
+    show: function (param, callBack) {
+        $.get(URLIST.article_show, param, function (res) {
+            callBack(res);
         });
-      }
+    },
+
+    del: function (id, callBack) {
+        $.get(URLIST.article_del, { id: id }, function (res) {
+            callBack(res);
+        });
+    },
 };

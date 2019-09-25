@@ -97,7 +97,7 @@
             <td class="text-center">{{item.state}}</td>
             <td class="text-center">
                 <a href="article_edit.html" class="btn btn-default btn-xs">编辑</a>
-                <a href="javascript:deleteTr( 1005 );" class="btn btn-danger btn-xs">删除</a>
+                <a data-id="{{item.id}}"  href="javascript:;" class="btn btn-danger btn-xs del">删除</a>
             </td>
         </tr>
         {{/each}}
@@ -122,7 +122,6 @@
             var state = ""; //文章类型的状态
             var totalPage = '';// 总页数
 
-            // function getCategoryAndShow(){
             category.show(function (res) {
                 // console.log(res);
                 if (res.code === 200) {
@@ -132,6 +131,25 @@
                 }
             });
             getAndShow();
+            //删除
+            $("#articleListContent").on('click',".del", function(){
+                console.log(this);
+                if(!window.confirm('确定删除么')){
+                    return;
+                }
+                var id =$(this).attr('data-id');
+                // var id = $(this).data('id');
+                article.del(id, function(res){
+                    console.log(res);
+                    if(res.code ===200){
+                        //删除成功 重新查询
+                        getAndShow();
+                    }else{
+                        alert(res.msg);
+                    }
+                });
+            });
+
             // 筛选
             $("#btnSearch").click(function () {
                 // 1，gengxin 获取信息  类别 状态
@@ -143,7 +161,6 @@
                 getAndShow(type, state);
 
             });
-            // }
 
             function getAndShow() {
                 article.show({
