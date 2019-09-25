@@ -16,4 +16,17 @@ var article = {
             callBack(res);
         });
     },
+    add: function (fd, callBack) {
+        $.ajax({
+            url:"http://localhost:8000/admin/article_publish",
+            type:"post",
+            data:fd,
+            processData:false,//让jquery不要处理数据 他无法处理formData对象
+            contentType: false, // 不要额外去设置请求头。它有自己的请求头
+            success:function(res){
+                console.log(res);
+            }
+
+        })
+    },
 };
