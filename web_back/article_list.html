@@ -96,7 +96,7 @@
             <td class="text-center">{{item.date}}</td>
             <td class="text-center">{{item.state}}</td>
             <td class="text-center">
-                <a href="article_edit.html" class="btn btn-default btn-xs">编辑</a>
+                <a href="./article_edit.html?id={{item.id}}" class="btn btn-default btn-xs">编辑</a>
                 <a data-id="{{item.id}}"  href="javascript:;" class="btn btn-danger btn-xs del">删除</a>
             </td>
         </tr>
@@ -155,10 +155,11 @@
                 // 1，gengxin 获取信息  类别 状态
                 type = $("#selCategory").val();
                 state = $("#selStatus").val();
+                currentPage = 1;
                 console.log(type, state);
 
                 // 2，查询
-                getAndShow(type, state);
+                getAndShow();
 
             });
 
